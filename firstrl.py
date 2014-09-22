@@ -51,8 +51,9 @@ class Object:
 			self.y += dy
 		
 	def draw(self):
-		libtcod.console_set_default_foreground(con, self.color)
-		libtcod.console_put_char(con, self.x, self.y, self.char, libtcod.BKGND_NONE)
+		if (libtcod.map_is_in_fov(fov_map, self.x, self.y)):
+			libtcod.console_set_default_foreground(con, self.color)
+			libtcod.console_put_char(con, self.x, self.y, self.char, libtcod.BKGND_NONE)
 		
 	def clear (self):
 		#Deletes the object in the game space
@@ -159,13 +160,24 @@ def make_map():
 	
 	
 def render_all():
+	global fov_map, colour_dark_wall, colour_light_wall, colour_dark_ground, colour_light_ground, fov_recompute
+
 	for y in range(MAP_HEIGHT):
 		for x in range(MAP_WIDTH):
+			visible = libtcod.map_is_in_fov(fov_map, x, y)
 			wall = map[x][y].block_sight
-			if wall:
-				libtcod.console_set_char_background(con, x, y, colour_dark_wall, libtcod.BKGND_SET )
+			
+			if not visible:
+			#Can't be seen by the player
+				if wall:
+					libtcod.console_set_char_background(con, x, y, colour_dark_wall, libtcod.BKGND_SET )
+				else:
+					libtcod.console_set_char_background(con, x, y, colour_dark_ground, libtcod.BKGND_SET )
 			else:
-				libtcod.console_set_char_background(con, x, y, colour_dark_ground, libtcod.BKGND_SET )
+				if wall:
+					libtcod.console_set_char_background(con, x, y, colour_light_wall, libtcod.BKGND_SET)
+				else:
+					libtcod.console_set_char_background(con, x, y, colour_light_ground, libtcod.BKGND_SET)
 				
 	#Draw all objects in the object list
 	for object in objects:
