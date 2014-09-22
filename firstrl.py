@@ -178,6 +178,7 @@ def render_all():
 				else:
 					libtcod.console_set_char_background(con, x, y, colour_dark_ground, libtcod.BKGND_SET )
 			else:
+			#is seen by the player
 				if wall:
 					libtcod.console_set_char_background(con, x, y, colour_light_wall, libtcod.BKGND_SET)
 				else:
