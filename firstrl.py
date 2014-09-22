@@ -14,9 +14,16 @@ ROOM_MAX_SIZE = 10
 ROOM_MIN_SIZE = 6
 MAX_ROOMS = 30
 
+#Handle FOV and Light Radius
+FOV_ALGO = 0
+FOV_LIGHT_WALLS = True
+TORCH_RADIUS = 10
+
 #tile colours
 colour_dark_wall = libtcod.Color(0, 0, 100)
+colour_light_wall = libtcod.Color(130, 110, 50)
 colour_dark_ground = libtcod.Color(50, 50, 150)
+colour_light_ground = libtcod.Color(200, 180, 50)
 
 
 class Tile:
@@ -151,7 +158,7 @@ def make_map():
 			num_rooms += 1
 	
 	
-def render_all():	
+def render_all():
 	for y in range(MAP_HEIGHT):
 		for x in range(MAP_WIDTH):
 			wall = map[x][y].block_sight
@@ -185,18 +192,22 @@ def handle_keys():
 	#movement keys
 	if libtcod.console_is_key_pressed(libtcod.KEY_UP):
 		player.move(0, -1)
+		fov_recompute = True
 		#playery -= 1
 		
 	elif libtcod.console_is_key_pressed(libtcod.KEY_DOWN):
 		player.move(0, 1)
+		fov_recompute = True
 		#playery += 1
 		
 	elif libtcod.console_is_key_pressed(libtcod.KEY_LEFT):
 		player.move(-1, 0)
+		fov_recompute = True
 		#playerx -= 1
 		
 	elif libtcod.console_is_key_pressed(libtcod.KEY_RIGHT):
 		player.move(1, 0)
+		fov_recompute = True
 		#playerx += 1
 
 
@@ -221,7 +232,14 @@ objects = [npc, player]
 #Create the map
 make_map()
 
-
+#Create an FOV map according to generated map
+fov_map = libtcod.map_new(MAP_WIDTH, MAP_HEIGHT)
+for y in range(MAP_HEIGHT):
+    for x in range(MAP_WIDTH):
+        libtcod.map_set_properties(fov_map, x, y, not map[x][y].block_sight, not map[x][y].blocked)
+		
+fov_recompute = True
+		
 #Main display loop
 while not libtcod.console_is_window_closed():
 	render_all()	
