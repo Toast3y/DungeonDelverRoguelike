@@ -161,6 +161,10 @@ def make_map():
 	
 def render_all():
 	global fov_map, colour_dark_wall, colour_light_wall, colour_dark_ground, colour_light_ground, fov_recompute
+	
+	if fov_recompute:
+		fov_recompute = False
+		libtcod.map_compute_fov(fov_map, player.x, player.y, TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
 
 	for y in range(MAP_HEIGHT):
 		for x in range(MAP_WIDTH):
