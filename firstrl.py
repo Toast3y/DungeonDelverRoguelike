@@ -1,4 +1,5 @@
 import libtcodpy as libtcod
+import special as roompatterns
 
 #Handle screen size and fps
 SCREEN_WIDTH = 80
@@ -17,7 +18,7 @@ MAX_ROOMS = 30
 #Handle FOV and Light Radius
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
-TORCH_RADIUS = 10
+TORCH_RADIUS = 8
 
 #tile colours
 colour_dark_wall = libtcod.Color(0, 0, 100)
@@ -30,6 +31,7 @@ class Tile:
 	#A map tile
 	def __init__(self, blocked, block_sight = None):
 		self.blocked = blocked
+		self.explored = False
 		
 		#If a tile is blocked, it also blocks sight
 		if block_sight is None: block_sight = blocked
@@ -67,6 +69,7 @@ class Rect:
 		self.y1 = y
 		self.x2 = x + w
 		self.y2 = y + h
+		self.roomSpecialFlag = False
 		
 	def center(self):
 		center_x = (self.x1 + self.x2) / 2
@@ -77,7 +80,24 @@ class Rect:
 		#returns true if this rectangle intersects another one by accident
 		return (self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1)
 		
+
+#Room that specializes the shape of rooms
+class roomSpecial(Rect):
+	def __init__(self, x, y, roomRoll):
+		#Conceptually, all rooms are still squares, however the created room is created with a specific array and size in mind
+		#Set initial corner of the room
+		self.x1 = x
+		self.y1 = y
 		
+		#Set randomized room roll
+		self.roomRoll = roomRoll
+		self.roomSpecialFlag = True
+		
+	def centerSpecial(self):
+		return
+		
+		
+
 def create_room(room):
 	global map
 	#Go through the tiles in the rectangle and make them passable.
@@ -113,6 +133,7 @@ def make_map():
 			
 	#Randomly generate a list of rooms
 	rooms = []
+	specialRooms = []
 	num_rooms = 0
 	
 	for r in range(MAX_ROOMS):
@@ -155,14 +176,22 @@ def make_map():
 					create_v_tunnel(prev_y, new_y, prev_x)
 					create_h_tunnel(prev_x, new_x, new_y)
 					
-			rooms.append(new_room)
+			if (new_room.roomSpecialFlag == True):
+				specialRooms.append(new_room)
+				rooms.append(new_room)
+			else:	
+				rooms.append(new_room)
+				
 			num_rooms += 1
 	
 	
 def render_all():
-	global fov_map, colour_dark_wall, colour_light_wall, colour_dark_ground, colour_light_ground, fov_recompute
+	global fov_map, colour_dark_wall, colour_light_wall
+	global colour_dark_ground, colour_light_ground
+	global fov_recompute
 	
 	if fov_recompute:
+	#recompute FOV if needed
 		fov_recompute = False
 		libtcod.map_compute_fov(fov_map, player.x, player.y, TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
 
@@ -173,16 +202,19 @@ def render_all():
 			
 			if not visible:
 			#Can't be seen by the player
-				if wall:
-					libtcod.console_set_char_background(con, x, y, colour_dark_wall, libtcod.BKGND_SET )
-				else:
-					libtcod.console_set_char_background(con, x, y, colour_dark_ground, libtcod.BKGND_SET )
+				if map[x][y].explored:
+					if wall:
+						libtcod.console_set_char_background(con, x, y, colour_dark_wall, libtcod.BKGND_SET )
+					else:
+						libtcod.console_set_char_background(con, x, y, colour_dark_ground, libtcod.BKGND_SET )
 			else:
 			#is seen by the player
 				if wall:
 					libtcod.console_set_char_background(con, x, y, colour_light_wall, libtcod.BKGND_SET)
 				else:
 					libtcod.console_set_char_background(con, x, y, colour_light_ground, libtcod.BKGND_SET)
+				#Change the explored flag to true
+				map[x][y].explored = True
 				
 	#Draw all objects in the object list
 	for object in objects:
@@ -196,6 +228,7 @@ def render_all():
 #Handle all keys in the game.
 def handle_keys():
 	global playerx, playery
+	global fov_recompute
 	
 	key = libtcod.console_wait_for_keypress(True)
 	if key.vk == libtcod.KEY_ENTER and key.lalt:
