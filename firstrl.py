@@ -93,6 +93,11 @@ class roomSpecial(Rect):
 		self.roomRoll = roomRoll
 		self.roomSpecialFlag = True
 		
+		#Assign the room array to draw the pattern.
+		self.roomPattern = roompatterns.RoomCrossArrayX()
+		self.w = roompatterns.RoomCrossWidth()
+		self.h = roompatterns.RoomCrossHeight()
+		
 	def centerSpecial(self):
 		return
 		
@@ -105,6 +110,16 @@ def create_room(room):
 		for y in range(room.y1 + 1, room.y2):
 			map[x][y].blocked = False
 			map[x][y].block_sight = False
+			
+			
+def create_room_special(room):
+	global map
+	#go through all marked tiles and assign them as unblocked
+	for coords in room.roomPattern:
+		for x, y in coords:
+			map[x+room.x1][y+room.y1].blocked = False
+			map[x+room.x1][y+room.y1].blocked = False
+			
 			
 			
 def create_h_tunnel(x1, x2, y):
@@ -123,6 +138,7 @@ def create_v_tunnel(y1, y2, x):
 		map[x][y].block_sight = False
 		
 		
+		
 def make_map():
 	global map
 	
@@ -136,13 +152,21 @@ def make_map():
 	specialRooms = []
 	num_rooms = 0
 	
+	if (((libtcod.random_get_int(0, 0, 100)) > 80) && (num_rooms != 0)):
+		specialRoom = True
+	else:
+		specialRoom = False
+	
 	for r in range(MAX_ROOMS):
 		#random width and height
-		w = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
-		h = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
-		#random position within boundaries of the map
-		x = libtcod.random_get_int(0, 0, MAP_WIDTH - w - 1)
-		y = libtcod.random_get_int(0, 0, MAP_HEIGHT - h - 1)
+		if specialRoom == False:
+			w = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+			h = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+		
+		#random position within boundaries of the map	
+		if specialRoom == False:
+			x = libtcod.random_get_int(0, 0, MAP_WIDTH - w - 1)
+			y = libtcod.random_get_int(0, 0, MAP_HEIGHT - h - 1)
 		
 		#Use Rect to create a new room
 		new_room = Rect(x, y, w, h)
