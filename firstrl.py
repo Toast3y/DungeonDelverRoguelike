@@ -153,10 +153,12 @@ def make_map():
 	specialRooms = []
 	num_rooms = 0
 	
-	if (((libtcod.random_get_int(0, 0, 100)) > 5) & (num_rooms != 0)):
-		specialRoom = True
-	else:
-		specialRoom = False
+	specialRoom = True
+	
+	#if (((libtcod.random_get_int(0, 0, 100)) > 5) & (num_rooms != 0)):
+	#	specialRoom = True
+	#else:
+	#	specialRoom = False
 	
 	for r in range(MAX_ROOMS):
 		#random width and height
@@ -170,7 +172,7 @@ def make_map():
 			new_room = Rect(x, y, w, h)
 			
 		else:
-			new_room = RoomSpecial(libtcod.random_get_int(0, 0, 100))
+			new_room = roomSpecial(libtcod.random_get_int(0, 0, 100))
 			
 		
 		#Check if the new room intersects an old one
