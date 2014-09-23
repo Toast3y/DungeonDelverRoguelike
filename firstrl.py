@@ -83,20 +83,21 @@ class Rect:
 
 #Room that specializes the shape of rooms
 class roomSpecial(Rect):
-	def __init__(self, x, y, roomRoll):
+	def __init__(self, roomRoll):
 		#Conceptually, all rooms are still squares, however the created room is created with a specific array and size in mind
-		#Set initial corner of the room
-		self.x1 = x
-		self.y1 = y
-		
 		#Set randomized room roll
 		self.roomRoll = roomRoll
 		self.roomSpecialFlag = True
-		
 		#Assign the room array to draw the pattern.
+		#TODO: Draw from room patterns.
 		self.roomPattern = roompatterns.RoomCrossArrayX()
 		self.w = roompatterns.RoomCrossWidth()
 		self.h = roompatterns.RoomCrossHeight()
+		#Set initial corner of the room
+		self.x1 = libtcod.random_get_int(0, 0, MAP_WIDTH - w - 1)
+		self.y1 = libtcod.random_get_int(0, 0, MAP_HEIGHT - h - 1)
+		self.x2 = x1 + w
+		self.y2 = y1 + h
 		
 	def centerSpecial(self):
 		return
@@ -152,7 +153,7 @@ def make_map():
 	specialRooms = []
 	num_rooms = 0
 	
-	if (((libtcod.random_get_int(0, 0, 100)) > 80) && (num_rooms != 0)):
+	if (((libtcod.random_get_int(0, 0, 100)) > 5) & (num_rooms != 0)):
 		specialRoom = True
 	else:
 		specialRoom = False
@@ -162,14 +163,15 @@ def make_map():
 		if specialRoom == False:
 			w = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
 			h = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
-		
 		#random position within boundaries of the map	
-		if specialRoom == False:
 			x = libtcod.random_get_int(0, 0, MAP_WIDTH - w - 1)
 			y = libtcod.random_get_int(0, 0, MAP_HEIGHT - h - 1)
-		
 		#Use Rect to create a new room
-		new_room = Rect(x, y, w, h)
+			new_room = Rect(x, y, w, h)
+			
+		else:
+			new_room = RoomSpecial(libtcod.random_get_int(0, 0, 100))
+			
 		
 		#Check if the new room intersects an old one
 		failed = False
@@ -180,7 +182,10 @@ def make_map():
 				
 		if not failed:
 			#If the room is valid and doesn't intersect
-			create_room(new_room)
+			if specialRoom == False:
+				create_room(new_room)
+			else:
+				create_room_special(new_room)
 			
 			#center coordinates of new room
 			(new_x, new_y) = new_room.center()
