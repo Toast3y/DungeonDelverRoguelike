@@ -94,10 +94,10 @@ class roomSpecial(Rect):
 		self.w = roompatterns.RoomCrossWidth()
 		self.h = roompatterns.RoomCrossHeight()
 		#Set initial corner of the room
-		self.x1 = libtcod.random_get_int(0, 0, MAP_WIDTH - w - 1)
-		self.y1 = libtcod.random_get_int(0, 0, MAP_HEIGHT - h - 1)
-		self.x2 = x1 + w
-		self.y2 = y1 + h
+		self.x1 = libtcod.random_get_int(0, 0, MAP_WIDTH - self.w - 1)
+		self.y1 = libtcod.random_get_int(0, 0, MAP_HEIGHT - self.h - 1)
+		self.x2 = self.x1 + self.w
+		self.y2 = self.y1 + self.h
 		
 	def centerSpecial(self):
 		return
@@ -116,10 +116,9 @@ def create_room(room):
 def create_room_special(room):
 	global map
 	#go through all marked tiles and assign them as unblocked
-	for coords in room.roomPattern:
-		for x, y in coords:
-			map[x+room.x1][y+room.y1].blocked = False
-			map[x+room.x1][y+room.y1].blocked = False
+	for x, y in room.roomPattern:
+		map[x+room.x1][y+room.y1].blocked = False
+		map[x+room.x1][y+room.y1].blocked = False
 			
 			
 			
