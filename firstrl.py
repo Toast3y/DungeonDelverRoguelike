@@ -118,7 +118,7 @@ def create_room_special(room):
 	#go through all marked tiles and assign them as unblocked
 	for x, y in room.roomPattern:
 		map[x+room.x1][y+room.y1].blocked = False
-		map[x+room.x1][y+room.y1].blocked = False
+		map[x+room.x1][y+room.y1].block_sight = False
 			
 			
 			
