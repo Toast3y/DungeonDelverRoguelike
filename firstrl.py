@@ -99,9 +99,15 @@ class roomSpecial(Rect):
 		self.x2 = self.x1 + self.w
 		self.y2 = self.y1 + self.h
 		
-	def centerSpecial(self):
-		return
+	def centerSpecial(self, prev_x, prev_y):
+		center_x = (self.x1 + self.x2) / 2
+		center_y = (self.y1 + self.y2) / 2
+		return roompatterns.RoomCrossCenter(prev_x, prev_y, center_x, center_y)
 		
+	def centerSpecialStart(self):
+		center_x = (self.x1 + self.x2) / 2
+		center_y = (self.y1 + self.y2) / 2
+		return roompatterns.RoomCrossCenterStart(center_x, center_y)
 		
 
 def create_room(room):
@@ -152,14 +158,14 @@ def make_map():
 	specialRooms = []
 	num_rooms = 0
 	
-	specialRoom = True
-	
-	#if (((libtcod.random_get_int(0, 0, 100)) > 5) & (num_rooms != 0)):
-	#	specialRoom = True
-	#else:
-	#	specialRoom = False
-	
 	for r in range(MAX_ROOMS):
+		#determine if it's a special room or a rectangle
+		if (((libtcod.random_get_int(0, 0, 100)) > 50) and (num_rooms != 0)):
+			specialRoom = True
+		else:
+			specialRoom = False
+	
+	
 		#random width and height
 		if specialRoom == False:
 			w = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
@@ -189,7 +195,10 @@ def make_map():
 				create_room_special(new_room)
 			
 			#center coordinates of new room
-			(new_x, new_y) = new_room.center()
+			if specialRoom == False:
+				(new_x, new_y) = new_room.center()
+			else:
+				(new_x, new_y) = new_room.centerSpecialStart()
 			
 			if num_rooms == 0:
 				#First room generated, player start here
@@ -197,7 +206,13 @@ def make_map():
 				player.y = new_y
 			else:
 				#All rooms after the first, connect to previous room with a tunnel
-				(prev_x, prev_y) = rooms[num_rooms-1].center()
+				if rooms[num_rooms-1].roomSpecialFlag == False:
+					(prev_x, prev_y) = rooms[num_rooms-1].center()
+				elif rooms[num_rooms-1].roomSpecialFlag == True:
+					(prev_x, prev_y) = rooms[num_rooms-1].centerSpecialStart()
+				
+				if specialRoom == True:
+					(new_x, new_y) = new_room.centerSpecial(prev_x, prev_y)
 				
 				if libtcod.random_get_int(0, 0, 1) == 1:
 					create_h_tunnel(prev_x, new_x, prev_y)
