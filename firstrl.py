@@ -1,5 +1,5 @@
 import libtcodpy as libtcod
-import special as roompatterns
+import room_switch as roompatterns
 
 #Handle screen size and fps
 SCREEN_WIDTH = 80
@@ -90,9 +90,11 @@ class roomSpecial(Rect):
 		self.roomSpecialFlag = True
 		#Assign the room array to draw the pattern.
 		#TODO: Draw from room patterns.
-		self.roomPattern = roompatterns.RoomCrossArrayX()
-		self.w = roompatterns.RoomCrossWidth()
-		self.h = roompatterns.RoomCrossHeight()
+		self.roomPattern = roompatterns.fetchRoomPattern(roomRoll)
+		self.w = roompatterns.fetchRoomWidth(roomRoll)
+		self.h = roompatterns.fetchRoomHeight(roomRoll)
+		#HollowBackwards sets a flag to more efficiently generate rooms
+		self.hollowBackwards = roompatterns.fetchRoomHollow(roomRoll)
 		#Set initial corner of the room
 		self.x1 = libtcod.random_get_int(0, 0, MAP_WIDTH - self.w - 1)
 		self.y1 = libtcod.random_get_int(0, 0, MAP_HEIGHT - self.h - 1)
@@ -121,11 +123,30 @@ def create_room(room):
 			
 def create_room_special(room):
 	global map
-	#go through all marked tiles and assign them as unblocked
+	#If a room can be more efficiently typed, the HollowBackwards pattern should be flagged and the generation should be done in reverse.
+	if (room.HollowBackwards == True):
+		create_room(room)
+		create_room_backwards(room)
+	else:
+		#go through all marked tiles and assign them as unblocked
+		for x, y in room.roomPattern:
+			map[x+room.x1][y+room.y1].blocked = False
+			map[x+room.x1][y+room.y1].block_sight = False
+		
+def create_room_backwards(room):
+	global map
+	#Reverse version of the create_room_special method
+	#blocks the tiles on the map instead
 	for x, y in room.roomPattern:
-		map[x+room.x1][y+room.y1].blocked = False
-		map[x+room.x1][y+room.y1].block_sight = False
+		map[x+room.x1][y+room.y1].blocked = True
+		map[x+room.x1][y+room.y1].block_sight = True
+	
 			
+
+def create_room_special_reverse(room):
+	#Reverses the map generation process, so the most efficient generation is used.
+	global map
+	
 			
 			
 def create_h_tunnel(x1, x2, y):
@@ -177,7 +198,7 @@ def make_map():
 			new_room = Rect(x, y, w, h)
 			
 		else:
-			new_room = roomSpecial(libtcod.random_get_int(0, 0, 100))
+			new_room = roomSpecial(libtcod.random_get_int(0, 0, 0))
 			
 		
 		#Check if the new room intersects an old one

@@ -1,12 +1,12 @@
 import libtcodpy as libtcod
 
-def RoomCrossArrayX():
+############################################################################################
+#Room Cross pattern
+
+def RoomCrossArray():
 	pattern = [0,2],[1,1],[1,2],[1,3],[2,0],[2,1],[2,3],[2,4],[3,1],[3,2],[3,3],[4,2]
 	return pattern
 	
-#def RoomCrossArrayY():
-#	pattern = [[3][1][2][3][0][1][3][4][1][2][3][2]]
-#	return pattern
 	
 def RoomCrossHeight():
 	h = 5
@@ -53,3 +53,12 @@ def RoomCrossCenterStart(center_x, center_y):
 			return (center_x, center_y+2)
 		else:
 			return (center_x+2, center_y)
+			
+def RoomCrossHollow():
+	return False
+			
+####################################################################################################
+#Chapel room pattern
+
+def RoomChapelArray():
+	return
