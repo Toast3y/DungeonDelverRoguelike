@@ -104,12 +104,12 @@ class roomSpecial(Rect):
 	def centerSpecial(self, prev_x, prev_y):
 		center_x = (self.x1 + self.x2) / 2
 		center_y = (self.y1 + self.y2) / 2
-		return roompatterns.RoomCrossCenter(prev_x, prev_y, center_x, center_y)
+		return roompatterns.fetchRoomCenter(self.roomRoll, prev_x, prev_y, center_x, center_y)
 		
 	def centerSpecialStart(self):
 		center_x = (self.x1 + self.x2) / 2
 		center_y = (self.y1 + self.y2) / 2
-		return roompatterns.RoomCrossCenterStart(center_x, center_y)
+		return roompatterns.fetchRoomCenterStart(self.roomRoll, center_x, center_y)
 		
 
 def create_room(room):
@@ -124,7 +124,7 @@ def create_room(room):
 def create_room_special(room):
 	global map
 	#If a room can be more efficiently typed, the HollowBackwards pattern should be flagged and the generation should be done in reverse.
-	if (room.HollowBackwards == True):
+	if (room.hollowBackwards == True):
 		create_room(room)
 		create_room_backwards(room)
 	else:
