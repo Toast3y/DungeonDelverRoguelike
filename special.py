@@ -9,12 +9,10 @@ def RoomCrossArray():
 	
 	
 def RoomCrossHeight():
-	h = 5
-	return h
+	return 5
 	
 def RoomCrossWidth():
-	w = 5
-	return w
+	return 5
 	
 def RoomCrossCenter(prev_x, prev_y, center_x, center_y):
 	#If previous room is in top left relative to new room
@@ -61,4 +59,20 @@ def RoomCrossHollow():
 #Chapel room pattern
 
 def RoomChapelArray():
-	return
+	pattern = [3,2],[7,2],[3,4],[7,4],[3,6],[7,6],[3,8],[7,8],[3,10],[7,10]
+	return pattern
+	
+def RoomChapelHeight():
+	return 12
+	
+def RoomChapelWidth():
+	return 10
+	
+def RoomChapelCenter(prev_x, prev_y, center_x, center_y):
+	return (center_x, center_y-3)
+	
+def RoomChapelCenterStart(center_x, center_y):
+	return (center_x, center_y+3)
+
+def RoomChapelHollow():
+	return True

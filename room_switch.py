@@ -11,8 +11,9 @@ def fetchRoomPattern(roomNumber):
 		return (roomPatterns.RoomChapelArray())
 		
 		
-	options = {0: cross,
-				1: chapel,
+	options = {
+		0: cross,
+		1: chapel,
 	}
 	
 	pattern = options[roomNumber]()
@@ -30,8 +31,9 @@ def fetchRoomWidth(roomNumber):
 	def chapel():
 		return int(roomPatterns.RoomChapelWidth())
 	
-	options = {0: cross,
-				1: chapel,
+	options = {
+		0: cross,
+		1: chapel,
 	}
 	
 	width = options[roomNumber]()
@@ -50,7 +52,8 @@ def fetchRoomHeight(roomNumber):
 		return int(roomPatterns.RoomChapelHeight())
 		
 		
-	options = {0: cross,
+	options = {
+				0: cross,
 				1: chapel,
 	}
 	

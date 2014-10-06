@@ -198,7 +198,7 @@ def make_map():
 			new_room = Rect(x, y, w, h)
 			
 		else:
-			new_room = roomSpecial(libtcod.random_get_int(0, 0, 0))
+			new_room = roomSpecial(libtcod.random_get_int(0, 0, 1))
 			
 		
 		#Check if the new room intersects an old one
@@ -368,4 +368,3 @@ while not libtcod.console_is_window_closed():
 	exit = handle_keys()
 	if exit:
 		break
-		
