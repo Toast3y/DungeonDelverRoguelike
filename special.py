@@ -39,6 +39,8 @@ def RoomCrossCenter(prev_x, prev_y, center_x, center_y):
 			return (center_x, center_y-2)
 		else:
 			return (center_x+2, center_y)
+	else:
+		return (center_x, center_y)
 			
 def RoomCrossCenterStart(center_x, center_y):
 	if libtcod.random_get_int(0, 0, 1) == 1:
@@ -96,4 +98,27 @@ def RoomChapelSideCenterStart(center_x, center_y):
 	return (center_x + 3, center_y)
 	
 def RoomChapelSideHollow():
+	return True
+	
+#########################################################################
+#Square Room pattern
+def RoomSquareArray():
+	pattern = [2,2],[2,3],[2,4],[3,2],[3,3],[3,4],[4,2],[4,3],[4,4]
+	return pattern
+	
+def RoomSquareHeight():
+	return 6
+	
+def RoomSquareWidth():
+	return 6
+	
+def RoomSquareCenter(prev_x, prev_y, center_x, center_y):
+	#TODO: Add calculation to corners of square
+	#if (prev_x <= center_x):
+	return (center_x, center_y)
+	
+def RoomSquareCenterStart(center_x, center_y):
+	return (center_x, center_y)
+	
+def RoomSquareHollow():
 	return True

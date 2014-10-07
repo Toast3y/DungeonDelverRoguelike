@@ -13,11 +13,15 @@ def fetchRoomPattern(roomNumber):
 	def chapelside():
 		return (roomPatterns.RoomChapelSideArray())
 		
+	def square():
+		return (roomPatterns.RoomSquareArray())
+		
 		
 	options = {
 		0: cross,
 		1: chapel,
 		2: chapelside,
+		3: square,
 	}
 	
 	pattern = options[roomNumber]()
@@ -37,11 +41,15 @@ def fetchRoomWidth(roomNumber):
 		
 	def chapelside():
 		return int(roomPatterns.RoomChapelSideWidth())
+		
+	def square():
+		return int(roomPatterns.RoomSquareWidth())
 	
 	options = {
 		0: cross,
 		1: chapel,
 		2: chapelside,
+		3: square,
 	}
 	
 	width = options[roomNumber]()
@@ -62,11 +70,15 @@ def fetchRoomHeight(roomNumber):
 	def chapelside():
 		return int(roomPatterns.RoomChapelSideHeight())
 		
+	def square():
+		return int(roomPatterns.RoomSquareHeight())
+		
 		
 	options = {
 		0: cross,
 		1: chapel,
-		2: chapelside,		
+		2: chapelside,
+		3: square,
 	}
 	
 	height = options[roomNumber]()
@@ -86,11 +98,15 @@ def fetchRoomHollow(roomNumber):
 		
 	def chapelside():
 		return (roomPatterns.RoomChapelSideHollow())
+		
+	def square():
+		return (roomPatterns.RoomSquareHollow())
 
 	options = {
 		0: cross,
 		1: chapel,
 		2: chapelside,
+		3: square,
 	}
 	
 	hollow = options[roomNumber]()
@@ -109,12 +125,16 @@ def fetchRoomCenter(roomNumber, prev_x, prev_y, new_x, new_y):
 		return (roomPatterns.RoomChapelCenter(prev_x, prev_y, new_x, new_y))
 		
 	def chapelside(prev_x, prev_y, new_x, new_y):
-		return (roomPatterns.RoomChapelSideCenter(prev_x, prev_y, new_x, new_y))	
+		return (roomPatterns.RoomChapelSideCenter(prev_x, prev_y, new_x, new_y))
+		
+	def square(prev_x, prev_y, new_x, new_y):
+		return (roomPatterns.RoomSquareCenter(prev_x, prev_y, new_x, new_y))
 		
 	options = {
 		0: cross,
 		1: chapel,
 		2: chapelside,
+		3: square,
 	}
 	
 	(return_x, return_y) = options[roomNumber](prev_x, prev_y, new_x, new_y)
@@ -134,10 +154,14 @@ def fetchRoomCenterStart(roomNumber, center_x, center_y):
 	def chapelside(center_x, center_y):
 		return (roomPatterns.RoomChapelSideCenterStart(center_x, center_y))
 		
+	def square(center_x, center_y):
+		return (roomPatterns.RoomSquareCenterStart(center_x, center_y))
+		
 	options = {
 		0: cross,
 		1: chapel,
 		2: chapelside,
+		3: square,
 	}
 	
 	(return_x, return_y) = options[roomNumber](center_x, center_y)

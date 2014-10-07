@@ -4,7 +4,7 @@ import room_switch as roompatterns
 #Handle screen size and fps
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
-LIMIT_FPS = 20
+LIMIT_FPS = 30
 
 #Handle map size for displays
 MAP_WIDTH = 80
@@ -198,7 +198,7 @@ def make_map():
 			new_room = Rect(x, y, w, h)
 			
 		else:
-			new_room = roomSpecial(libtcod.random_get_int(0, 0, 2))
+			new_room = roomSpecial(libtcod.random_get_int(0, 0, 3))
 			
 		
 		#Check if the new room intersects an old one
@@ -342,7 +342,7 @@ con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 #Make the player
 player = Object(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, '@', libtcod.white)
 #Make an NPC
-npc = Object(SCREEN_WIDTH/2 - 5, SCREEN_HEIGHT/2, '@', libtcod.yellow)
+#npc = Object(SCREEN_WIDTH/2 - 5, SCREEN_HEIGHT/2, '@', libtcod.yellow)
 #Define all objects to be rendered
 objects = [npc, player]
 #Create the map
