@@ -10,10 +10,14 @@ def fetchRoomPattern(roomNumber):
 	def chapel():
 		return (roomPatterns.RoomChapelArray())
 		
+	def chapelside():
+		return (roomPatterns.RoomChapelSideArray())
+		
 		
 	options = {
 		0: cross,
 		1: chapel,
+		2: chapelside,
 	}
 	
 	pattern = options[roomNumber]()
@@ -30,10 +34,14 @@ def fetchRoomWidth(roomNumber):
 		
 	def chapel():
 		return int(roomPatterns.RoomChapelWidth())
+		
+	def chapelside():
+		return int(roomPatterns.RoomChapelSideWidth())
 	
 	options = {
 		0: cross,
 		1: chapel,
+		2: chapelside,
 	}
 	
 	width = options[roomNumber]()
@@ -51,10 +59,14 @@ def fetchRoomHeight(roomNumber):
 	def chapel():
 		return int(roomPatterns.RoomChapelHeight())
 		
+	def chapelside():
+		return int(roomPatterns.RoomChapelSideHeight())
+		
 		
 	options = {
-				0: cross,
-				1: chapel,
+		0: cross,
+		1: chapel,
+		2: chapelside,		
 	}
 	
 	height = options[roomNumber]()
@@ -71,10 +83,14 @@ def fetchRoomHollow(roomNumber):
 		
 	def chapel():
 		return (roomPatterns.RoomChapelHollow())
+		
+	def chapelside():
+		return (roomPatterns.RoomChapelSideHollow())
 
 	options = {
 		0: cross,
 		1: chapel,
+		2: chapelside,
 	}
 	
 	hollow = options[roomNumber]()
@@ -92,9 +108,13 @@ def fetchRoomCenter(roomNumber, prev_x, prev_y, new_x, new_y):
 	def chapel(prev_x, prev_y, new_x, new_y):
 		return (roomPatterns.RoomChapelCenter(prev_x, prev_y, new_x, new_y))
 		
+	def chapelside(prev_x, prev_y, new_x, new_y):
+		return (roomPatterns.RoomChapelSideCenter(prev_x, prev_y, new_x, new_y))	
+		
 	options = {
 		0: cross,
 		1: chapel,
+		2: chapelside,
 	}
 	
 	(return_x, return_y) = options[roomNumber](prev_x, prev_y, new_x, new_y)
@@ -110,10 +130,14 @@ def fetchRoomCenterStart(roomNumber, center_x, center_y):
 	
 	def chapel(center_x, center_y):
 		return (roomPatterns.RoomChapelCenterStart(center_x, center_y))
+	
+	def chapelside(center_x, center_y):
+		return (roomPatterns.RoomChapelSideCenterStart(center_x, center_y))
 		
 	options = {
 		0: cross,
 		1: chapel,
+		2: chapelside,
 	}
 	
 	(return_x, return_y) = options[roomNumber](center_x, center_y)

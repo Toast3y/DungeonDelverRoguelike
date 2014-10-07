@@ -76,3 +76,24 @@ def RoomChapelCenterStart(center_x, center_y):
 
 def RoomChapelHollow():
 	return True
+	
+########################################################################
+#Chapel sideways room pattern
+def RoomChapelSideArray():
+	pattern = [2,3],[2,7],[4,3],[4,7],[6,3],[6,7],[8,3],[8,7],[10,3],[10,7]
+	return pattern
+	
+def RoomChapelSideHeight():
+	return 10
+	
+def RoomChapelSideWidth():
+	return 12
+	
+def RoomChapelSideCenter(prev_x, prev_y, center_x, center_y):
+	return (center_x - 3, center_y)
+	
+def RoomChapelSideCenterStart(center_x, center_y):
+	return (center_x + 3, center_y)
+	
+def RoomChapelSideHollow():
+	return True
