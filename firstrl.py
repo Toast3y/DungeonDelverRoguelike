@@ -344,7 +344,7 @@ player = Object(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, '@', libtcod.white)
 #Make an NPC
 #npc = Object(SCREEN_WIDTH/2 - 5, SCREEN_HEIGHT/2, '@', libtcod.yellow)
 #Define all objects to be rendered
-objects = [npc, player]
+objects = [player]
 #Create the map
 make_map()
 
