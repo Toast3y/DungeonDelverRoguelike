@@ -21,10 +21,10 @@ FOV_LIGHT_WALLS = True
 TORCH_RADIUS = 8
 
 #tile colours
-colour_dark_wall = libtcod.Color(0, 0, 100)
-colour_light_wall = libtcod.Color(130, 110, 50)
-colour_dark_ground = libtcod.Color(50, 50, 150)
-colour_light_ground = libtcod.Color(200, 180, 50)
+colour_dark_wall = libtcod.Color(62, 62, 62)
+colour_light_wall = libtcod.Color(93, 93, 93)
+colour_dark_ground = libtcod.Color(123, 123, 123)
+colour_light_ground = libtcod.Color(184, 184, 184)
 
 
 class Tile:
