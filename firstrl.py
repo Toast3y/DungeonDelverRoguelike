@@ -18,7 +18,7 @@ MAX_ROOMS = 30
 #Handle FOV and Light Radius
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
-TORCH_RADIUS = 8
+TORCH_RADIUS = 5
 
 #tile colours
 colour_dark_wall = libtcod.Color(62, 62, 122)
