@@ -148,7 +148,7 @@ def create_room_special_reverse(room):
 	global map
 	
 			
-			
+##Tunnels will be deprecated, reference tunnels in level scripts
 def create_h_tunnel(x1, x2, y):
 	#Horizontal tunnel
 	global map
@@ -156,7 +156,7 @@ def create_h_tunnel(x1, x2, y):
 		map[x][y].blocked = False
 		map[x][y].block_sight = False
 		
-		
+##Tunnels will be deprecated, reference tunnels in level scripts
 def create_v_tunnel(y1, y2, x):
 	#Vertical tunnel
 	global map
@@ -165,9 +165,13 @@ def create_v_tunnel(y1, y2, x):
 		map[x][y].block_sight = False
 		
 		
-		
+
+##Map may be composed of three map global variables.
+##Require teleport tiles? Consider implementation of tiles to move to lower level map grids.
 def make_map():
 	global map
+	
+	##TODO: FETCH TYPE OF LEVEL AND RANGES
 	
 	#Fill map with "blocked tiles"
 	map = [[ Tile(True)
@@ -181,12 +185,15 @@ def make_map():
 	
 	for r in range(MAX_ROOMS):
 		#determine if it's a special room or a rectangle
+		##ALL ROOMS WILL FURTHER BE SPECIAL ROOMS
+		##TODO: WRITE LEVEL SCRIPTS
+		##TODO: WRITE METHOD TO DICTATE DICTIONARY LOOKUP OF LEVEL SCRIPTS
 		if (((libtcod.random_get_int(0, 0, 100)) > 50) and (num_rooms != 0)):
 			specialRoom = True
 		else:
 			specialRoom = False
 	
-	
+		##REDUNDANT CODE, REMOVE
 		#random width and height
 		if specialRoom == False:
 			w = libtcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
@@ -198,9 +205,12 @@ def make_map():
 			new_room = Rect(x, y, w, h)
 			
 		else:
+		##END OF REDUNDANT CODE
 			new_room = roomSpecial(libtcod.random_get_int(0, 0, 3))
 			
 		
+		##REDUNDANT, new generation should not cause overlap of old map tiles.
+		##POSSIBLE ROOMS MAY DO SO THOUGH, CONSIDER PLANNING THIS FURTHER
 		#Check if the new room intersects an old one
 		failed = False
 		for other_room in rooms:
@@ -221,6 +231,7 @@ def make_map():
 			else:
 				(new_x, new_y) = new_room.centerSpecialStart()
 			
+			##PLAYER START SHOULD BE DICTATED BY MAP SCRIPT
 			if num_rooms == 0:
 				#First room generated, player start here
 				player.x = new_x
@@ -235,6 +246,8 @@ def make_map():
 				if specialRoom == True:
 					(new_x, new_y) = new_room.centerSpecial(prev_x, prev_y)
 				
+				##REDUNDANT
+				##TODO: INSTEAD WRITE INTERFACE FOR CONNECTING CORRIDORS
 				if libtcod.random_get_int(0, 0, 1) == 1:
 					create_h_tunnel(prev_x, new_x, prev_y)
 					create_v_tunnel(prev_y, new_y, new_x)
