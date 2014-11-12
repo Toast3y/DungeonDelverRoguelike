@@ -18,7 +18,7 @@ MAX_ROOMS = 30
 #Handle FOV and Light Radius
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
-TORCH_RADIUS = 5
+TORCH_RADIUS = 4
 
 #tile colours
 colour_dark_wall = libtcod.Color(62, 62, 122)
@@ -29,6 +29,7 @@ colour_light_ground = libtcod.Color(184, 184, 184)
 
 class Tile:
 	#A map tile
+	#TODO: Polymorphic possibilities? Morph tiles in map to make them special tiles?
 	def __init__(self, blocked, block_sight = None):
 		self.blocked = blocked
 		self.explored = False
@@ -89,11 +90,11 @@ class roomSpecial(Rect):
 		self.roomRoll = roomRoll
 		self.roomSpecialFlag = True
 		#Assign the room array to draw the pattern.
-		#TODO: Draw from room patterns.
 		self.roomPattern = roompatterns.fetchRoomPattern(roomRoll)
 		self.w = roompatterns.fetchRoomWidth(roomRoll)
 		self.h = roompatterns.fetchRoomHeight(roomRoll)
 		#HollowBackwards sets a flag to more efficiently generate rooms
+		#It actually uses more processing cycles, but is easier to draw for certain rooms
 		self.hollowBackwards = roompatterns.fetchRoomHollow(roomRoll)
 		#Set initial corner of the room
 		self.x1 = libtcod.random_get_int(0, 0, MAP_WIDTH - self.w - 1)
@@ -140,12 +141,6 @@ def create_room_backwards(room):
 	for x, y in room.roomPattern:
 		map[x+room.x1][y+room.y1].blocked = True
 		map[x+room.x1][y+room.y1].block_sight = True
-	
-			
-
-def create_room_special_reverse(room):
-	#Reverses the map generation process, so the most efficient generation is used.
-	global map
 	
 			
 ##Tunnels will be deprecated, reference tunnels in level scripts
@@ -265,6 +260,8 @@ def make_map():
 	
 	
 def render_all():
+	#TODO: Add renderer for each level of the map at specific heights
+	#TODO: Configure renderer colours for each tile possible.
 	global fov_map, colour_dark_wall, colour_light_wall
 	global colour_dark_ground, colour_light_ground
 	global fov_recompute
