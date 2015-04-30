@@ -38,6 +38,8 @@ class Tile:
 		if block_sight is None: block_sight = blocked
 		self.block_sight = block_sight
 		
+		
+		
 
 class Object:
 	#Generic object to represent any thing in the game world
@@ -62,6 +64,8 @@ class Object:
 		#Deletes the object in the game space
 		libtcod.console_put_char(con, self.x, self.y, ' ', libtcod.BKGND_NONE)
 		
+		
+		
 
 class Rect:
 	#Rectangle on the map, used to characterize a room
@@ -80,6 +84,8 @@ class Rect:
 	def intersect(self, other):
 		#returns true if this rectangle intersects another one by accident
 		return (self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1)
+		
+		
 		
 
 #Room that specializes the shape of rooms
@@ -111,6 +117,8 @@ class roomSpecial(Rect):
 		center_x = (self.x1 + self.x2) / 2
 		center_y = (self.y1 + self.y2) / 2
 		return roompatterns.fetchRoomCenterStart(self.roomRoll, center_x, center_y)
+		
+		
 		
 
 def create_room(room):
