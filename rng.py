@@ -8,7 +8,7 @@ root = Tk()
 
 
 ##Modify root window
-root.title("Roguelike Map Designer")
+root.title("Roguelike 'Next-Level' Generator")
 root.geometry("640x480")
 
 
