@@ -14,6 +14,7 @@ def RoomCrossHeight():
 def RoomCrossWidth():
 	return 5
 	
+##Outdated, rooms should only care about their exit points instead of the approximate centre
 def RoomCrossCenter(prev_x, prev_y, center_x, center_y):
 	#If previous room is in top left relative to new room
 	if (prev_x < center_x and prev_y < center_y):
@@ -41,7 +42,8 @@ def RoomCrossCenter(prev_x, prev_y, center_x, center_y):
 			return (center_x+2, center_y)
 	else:
 		return (center_x, center_y)
-			
+		
+##Outdated, room scripts should dictate the start of the level
 def RoomCrossCenterStart(center_x, center_y):
 	if libtcod.random_get_int(0, 0, 1) == 1:
 		if libtcod.random_get_int(0, 0, 1) == 1:
@@ -70,9 +72,11 @@ def RoomChapelHeight():
 def RoomChapelWidth():
 	return 10
 	
+##Outdated, rooms should only care about their exit points instead of the approximate centre
 def RoomChapelCenter(prev_x, prev_y, center_x, center_y):
 	return (center_x, center_y-3)
 	
+##Outdated, room scripts should dictate the start of the level
 def RoomChapelCenterStart(center_x, center_y):
 	return (center_x, center_y+3)
 
@@ -91,9 +95,11 @@ def RoomChapelSideHeight():
 def RoomChapelSideWidth():
 	return 12
 	
+##Outdated, rooms should only care about their exit points instead of the approximate centre
 def RoomChapelSideCenter(prev_x, prev_y, center_x, center_y):
 	return (center_x - 3, center_y)
 	
+##Outdated, room scripts should dictate the start of the level
 def RoomChapelSideCenterStart(center_x, center_y):
 	return (center_x + 3, center_y)
 	
@@ -112,11 +118,13 @@ def RoomSquareHeight():
 def RoomSquareWidth():
 	return 6
 	
+##Outdated, rooms should only care about their exit points instead of the approximate centre
 def RoomSquareCenter(prev_x, prev_y, center_x, center_y):
 	#TODO: Add calculation to corners of square
 	#if (prev_x <= center_x):
 	return (center_x, center_y)
 	
+##Outdated, room scripts should dictate the start of the level
 def RoomSquareCenterStart(center_x, center_y):
 	return (center_x, center_y)
 	

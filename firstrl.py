@@ -37,6 +37,7 @@ class Tile:
 		#If a tile is blocked, it also blocks sight
 		if block_sight is None: block_sight = blocked
 		self.block_sight = block_sight
+##End of Class
 		
 		
 		
@@ -63,6 +64,7 @@ class Object:
 	def clear (self):
 		#Deletes the object in the game space
 		libtcod.console_put_char(con, self.x, self.y, ' ', libtcod.BKGND_NONE)
+##End of Class
 		
 		
 		
@@ -84,6 +86,7 @@ class Rect:
 	def intersect(self, other):
 		#returns true if this rectangle intersects another one by accident
 		return (self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1)
+##End of Class
 		
 		
 		
@@ -117,6 +120,7 @@ class roomSpecial(Rect):
 		center_x = (self.x1 + self.x2) / 2
 		center_y = (self.y1 + self.y2) / 2
 		return roompatterns.fetchRoomCenterStart(self.roomRoll, center_x, center_y)
+##End of Class
 		
 		
 		
@@ -128,8 +132,10 @@ def create_room(room):
 		for y in range(room.y1 + 1, room.y2):
 			map[x][y].blocked = False
 			map[x][y].block_sight = False
+##End of function
 			
 			
+
 def create_room_special(room):
 	global map
 	#If a room can be more efficiently typed, the HollowBackwards pattern should be flagged and the generation should be done in reverse.
@@ -141,7 +147,10 @@ def create_room_special(room):
 		for x, y in room.roomPattern:
 			map[x+room.x1][y+room.y1].blocked = False
 			map[x+room.x1][y+room.y1].block_sight = False
-		
+##End of function
+			
+	
+##Creates a room backwards for efficiency of operations	
 def create_room_backwards(room):
 	global map
 	#Reverse version of the create_room_special method
@@ -149,23 +158,27 @@ def create_room_backwards(room):
 	for x, y in room.roomPattern:
 		map[x+room.x1][y+room.y1].blocked = True
 		map[x+room.x1][y+room.y1].block_sight = True
+##End of function
 	
 			
-##Tunnels will be deprecated, reference tunnels in level scripts
+##Tunnels will be deprecated, reference tunnels / corridors in level scripts
 def create_h_tunnel(x1, x2, y):
 	#Horizontal tunnel
 	global map
 	for x in range(min(x1, x2), max(x1, x2) + 1):
 		map[x][y].blocked = False
 		map[x][y].block_sight = False
+##End of Function
 		
-##Tunnels will be deprecated, reference tunnels in level scripts
+		
+##Tunnels will be deprecated, reference tunnels / corridors in level scripts
 def create_v_tunnel(y1, y2, x):
 	#Vertical tunnel
 	global map
 	for y in range(min(y1, y2), max(y1, y2) + 1):
 		map[x][y].blocked = False
 		map[x][y].block_sight = False
+##End of function
 		
 		
 
@@ -265,6 +278,8 @@ def make_map():
 				rooms.append(new_room)
 				
 			num_rooms += 1
+##End of function
+
 	
 	
 def render_all():
@@ -306,6 +321,7 @@ def render_all():
 	
 	#Blit the contents of con to root console
 	libtcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
+##End of function
 	
 	
 	
@@ -343,6 +359,7 @@ def handle_keys():
 		player.move(1, 0)
 		fov_recompute = True
 		#playerx += 1
+##End of Function
 
 
 #############
