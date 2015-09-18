@@ -1,6 +1,11 @@
 #simple GUI
 
 from Tkinter import *
+from ttk import *
+
+##class ApplicationWindow:
+	##Class that assembles the main window to display the application
+##End of class
 
 
 ##Functions on calling actions from the menu
@@ -10,6 +15,8 @@ def file_hello():
 	
 def file_new():
 	print "New Map"
+	f3 = Frame(notebook)
+	notebook.add(f3, text="Three")
 	
 def file_open():
 	print "Open Map"
@@ -55,6 +62,20 @@ edit_menu.add_command(label="Undo", command=edit_undo)
 edit_menu.add_command(label="Redo", command=edit_redo)
 edit_menu.add_separator()
 ##End of commands
+
+##Add a container frame to the root
+container = Frame(root)
+container.pack(fill="both", expand=1, padx=5, pady=5)
+
+##Add a Notebook to the container frame
+notebook = Notebook(root)
+f1 = Frame(notebook)
+f1.pack(fill="both")
+f2 = Frame(notebook)
+f2.pack(fill="both")
+notebook.add(f1, text='One')
+notebook.add(f2, text='Two')
+notebook.pack()
 
 
 
